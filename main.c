@@ -10,41 +10,42 @@
 #define BAUD 9600
 #define SEND_REPEATS 4
 
-#define DELAY_SHORT 280
-#define DELAY_LONG 1350
-#define DELAY_SYNC 2780
+#define DELAY_SHORT 275
+#define DELAY_LONG 1225
+#define DELAY_SYNC 2675
+#define DELAY_TRANS 7125
 
 
 void write_sync(void)
 {
     SIGNAL_PORT |= (1 << SIGNAL_PIN);
-    _delay_us(275);
+    _delay_us(DELAY_SHORT);
     SIGNAL_PORT &= ~(1 << SIGNAL_PIN);
-    _delay_us(2675);
+    _delay_us(DELAY_SYNC);
 }
 
 void write_0(void)
 {
     SIGNAL_PORT |= (1 << SIGNAL_PIN);
-    _delay_us(275);
+    _delay_us(DELAY_SHORT);
     SIGNAL_PORT &= ~(1 << SIGNAL_PIN);
-    _delay_us(275);
+    _delay_us(DELAY_SHORT);
     SIGNAL_PORT |= (1 << SIGNAL_PIN);
-    _delay_us(275);
+    _delay_us(DELAY_SHORT);
     SIGNAL_PORT &= ~(1 << SIGNAL_PIN);
-    _delay_us(1225);
+    _delay_us(DELAY_LONG);
 }
 
 void write_1(void)
 {
     SIGNAL_PORT |= (1 << SIGNAL_PIN);
-    _delay_us(275);
+    _delay_us(DELAY_SHORT);
     SIGNAL_PORT &= ~(1 << SIGNAL_PIN);
-    _delay_us(1225);
+    _delay_us(DELAY_LONG);
     SIGNAL_PORT |= (1 << SIGNAL_PIN);
-    _delay_us(275);
+    _delay_us(DELAY_SHORT);
     SIGNAL_PORT &= ~(1 << SIGNAL_PIN);
-    _delay_us(275);
+    _delay_us(DELAY_SHORT);
 }
 
 void write_code(uint32_t code)
@@ -96,7 +97,7 @@ int main(void)
 
         for (int i = 0; i < SEND_REPEATS; i++) {
             write_code(code);
-            _delay_us(7125);
+            _delay_us(DELAY_TRANS);
         }
     }
 
